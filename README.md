@@ -260,12 +260,40 @@ franky-work.com
 ```
 
 Setelah itu, buatlah file zone untuk loid-work.com dan franky-work.com dan arahkan IP secara bebas
+
+Tambahkan konfigurasi squid.conf dengan ``` acl ALLOWED dstdomain "/etc/squid/allowed-sites.acl" ``` dan ``` http_access allow ALLOWED working_1 ```
+
 Restart DNS Server dan Squid dengan command masing-masing ``` service bind9 restart ``` dan ``` service squid restart ```
 Ketika kita mengakses loid-work.com atau franky-work.com maka tampilannya akan terlihat seperti ini
 
 ![image](https://user-images.githubusercontent.com/72655301/201681364-bc67bcaf-5ff2-4bf3-833a-44dde7b4dac1.png)
 
+Untuk settingan waktu akses hanya pada jam kerja masih belum bisa diselesaikan
 
 ## 3.
-## 4.
-## 5.
+Agar hanya bisa mengakses website dengan protokol https, maka kita harus melakukan blocking port http, yaitu 80 dan hanya membolehkan akses pada port https, yaitu 443 dengan menambahkan konfigurasi
+
+```
+acl Deny_port port 80         # http
+acl SSL_port port 443
+
+...
+
+http_access deny Deny_port
+http_access deny SSL_port working_1
+
+```
+
+Restart Squid dengan command ``` service squid restart ```
+Ketika website dengan http diakses, maka akan muncul tampilan sebagai berikut
+
+![image](https://user-images.githubusercontent.com/72655301/201683251-88341d2d-d834-4d6a-852c-2ce9031029d5.png)
+
+
+## No. 4
+Masih belum dikerjakan
+## No. 5
+Masih belum dikerjakan
+
+# Kesulitan
+Karena masih belum familiar dengan DHCP Server, konfigurasi dilakukan secara perlahan sehingga waktu yang ada terasa kurang. Untuk DHCP Relay tidak ada di modul sehingga masih harus mencari diluar modul. Untuk Squid, konfigurasi yang dilakukan terkadang saling menimpa satu sama lain sehingga beberapa akses yang diperbolehkan dan tidak diperbolehkan tidak berjalan dengan benar.  
