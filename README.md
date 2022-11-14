@@ -224,8 +224,48 @@ hwaddress ether 3a:56:6c:1a:3a:1e;
 Restart DHCP Server dengan command ``` service isc-dhcp-server restart ``` 
 
 # Proxy
-## 1.
-## 2.
+Install terlebih dahulu ``` lynx ``` pada salah satu client yang akan digunakan
+## No. 1
+Back-up terlebih dahulu file /etc/squid/squid.conf dengan menggunakan menggunakan command ``` mv /etc/squid/squid.conf /etc/squid/squid.conf.bak ```
+Setelah itu, buatlah file /etc/squid/squid.conf dan isilah dengan konfigurasi berikut
+
+```
+include /etc/squid/acl.conf
+
+http_port 8080
+http_access deny working_1
+http_access allow all
+visible_hostname Berlint
+```
+
+Lalu, buatlah file acl.conf dan isilah dengan konfigurasi berikut
+
+```
+acl working_1 time MTWHF 08:00-17:00
+```
+
+Restart Squid dengan command ``` service squid restart ```
+Ketika kita mengakses sebuah website didalam jam & hari kerja, maka akan muncul tampilan seperti ini
+
+![image](https://user-images.githubusercontent.com/72655301/201680363-b8c03932-7416-4e76-b5ca-659548dd3ec6.png)
+
+
+## No. 2
+
+Buatlah file allowed-sites.acl dan isilah dengan konfigurasi berikut
+
+```
+loid-work.com
+franky-work.com
+```
+
+Setelah itu, buatlah file zone untuk loid-work.com dan franky-work.com dan arahkan IP secara bebas
+Restart DNS Server dan Squid dengan command masing-masing ``` service bind9 restart ``` dan ``` service squid restart ```
+Ketika kita mengakses loid-work.com atau franky-work.com maka tampilannya akan terlihat seperti ini
+
+![image](https://user-images.githubusercontent.com/72655301/201681364-bc67bcaf-5ff2-4bf3-833a-44dde7b4dac1.png)
+
+
 ## 3.
 ## 4.
 ## 5.
