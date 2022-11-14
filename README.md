@@ -205,6 +205,23 @@ INTERFACES="eth0"
 ' >  /etc/default/isc-dhcp-server
 ```
 
+## No. 7
+Untuk memberikan fixed-address kepada client, maka kita akan menambah konfigurasi dari file /etc/dhcp/dhcpd.conf dengan konfigurasi berikut
+
+```
+host Eden {
+        hardware ethernet 3a:56:6c:1a:3a:1e;
+        fixed-address 192.170.3.13;
+}
+```
+
+dan untuk konfigurasi interfacenya sendiri diubah dengan dibawahnya ditambahkan hardware ethernet yang sama dengan konfigurasi /etc/dhcp/dhcpd.conf sebagai berikut
+
+```
+hwaddress ether 3a:56:6c:1a:3a:1e;
+```
+
+Restart DHCP Server dengan command ``` service isc-dhcp-server restart ``` 
 
 # Proxy
 ## 1.
